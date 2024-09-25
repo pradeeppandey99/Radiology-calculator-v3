@@ -8,6 +8,11 @@ function showPage(pageId) {
         page.classList.remove('active');
     });
     document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll('nav ul li a').forEach(link => {
+        link.classList.remove('active');
+    });
+    document.querySelector(`nav ul li a[onclick="showPage('${pageId}')"]`).classList.add('active');
 }
 
 function saveAssumptions() {
@@ -60,6 +65,10 @@ function loadAssumptions() {
     document.getElementById('seasonalAdjustment').value = assumptions.seasonalAdjustment * 100;
 }
 
+function showAdditionalInput(show) {
+    document.getElementById('additionalRegistrarsInput').style.display = show ? 'block' : 'none';
+}
+
 function calculateManpower() {
     const assumptions = {
         manhours: parseFloat(document.getElementById('manhours').value) || 0,
@@ -92,18 +101,40 @@ function calculateManpower() {
     const totalDeficitSurplusManhours = totalAvailableManhours - adjustedTotalTimeReporting;
     const totalDeficitSurplusManpower = totalDeficitSurplusManhours / assumptions.manhours;
 
-    document.getElementById('result').innerHTML = `
-        <h2>Results</h2>
-        <p>Total available manhours per month: ${totalAvailableManhours.toFixed(2)}</p>
-        <p>Time required for simple CT reporting: ${timeSimpleCT.toFixed(2)}</p>
-        <p>Time required for complex CT reporting: ${timeComplexCT.toFixed(2)}</p>
-        <p>Total time required for CT per month: ${totalTimeCT.toFixed(2)}</p>
-        <p>Time required for simple MRI reporting: ${timeSimpleMRI.toFixed(2)}</p>
-        <p>Time required for complex MRI reporting: ${timeComplexMRI.toFixed(2)}</p>
-        <p>Total time required for MRI per month: ${totalTimeMRI.toFixed(2)}</p>
-        <p>Total time required for reporting per month: ${totalTimeReporting.toFixed(2)}</p>
-        <p>Adjusted total time required for reporting per month: ${adjustedTotalTimeReporting.toFixed(2)}</p>
-        <p>Total deficit or surplus of manhours per month: ${totalDeficitSurplusManhours.toFixed(2)}</p>
-        <p>Total deficit or surplus manpower required: ${totalDeficitSurplusManpower.toFixed(2)}</p>
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+        <h2 class="text-xl font-bold mb-4">Results</h2>
+        <p class="${totalDeficitSurplusManhours >= 0 ? 'text-green-600' : 'text-red-600'} font-semibold">
+            Total deficit or surplus of manhours per month: ${totalDeficitSurplusManhours.toFixed(2)}
+        </p>
+        <p class="${totalDeficitSurplusManpower >= 0 ? 'text-green-600' : 'text-red-600'} font-semibold">
+            Total deficit or surplus manpower required: ${totalDeficitSurplusManpower.toFixed(2)}
+        </p>
     `;
+
+    const deficitOptionsDiv = document.getElementById('deficit-options');
+    if (totalDeficitSurplusManhours < 0) {
+        deficitOptionsDiv.style.display = 'block';
+    } else {
+        deficitOptionsDiv.style.display = 'none';
+    }
+
+    const hireOption = document.querySelector('input[name="hireOption"]:checked');
+    if (hireOption) {
+        let additionalRegistrars = 0;
+        let additionalDoctors = 0;
+        if (hireOption.value === 'registrars') {
+            additionalRegistrars = Math.abs(totalDeficitSurplusManhours) / (assumptions.registrarTime * assumptions.manhours);
+            resultDiv.innerHTML += `<p class="additional-result">Additional registrars required: ${additionalRegistrars.toFixed(1)}</p>`;
+        } else if (hireOption.value === 'doctors') {
+            additionalDoctors = Math.abs(totalDeficitSurplusManhours) / (assumptions.consultantTime * assumptions.manhours);
+            resultDiv.innerHTML += `<p class="additional-result">Additional doctors required: ${additionalDoctors.toFixed(1)}</p>`;
+        } else if (hireOption.value === 'mix') {
+            const additionalRegistrarsInput = parseFloat(document.getElementById('additionalRegistrars').value) || 0;
+            const remainingManhours = Math.abs(totalDeficitSurplusManhours) - (additionalRegistrarsInput * assumptions.registrarTime * assumptions.manhours);
+            additionalDoctors = remainingManhours / (assumptions.consultantTime * assumptions.manhours);
+            resultDiv.innerHTML += `<p class="additional-result">Additional registrars required: ${additionalRegistrarsInput.toFixed(1)}</p>`;
+            resultDiv.innerHTML += `<p class="additional-result">Additional doctors required: ${additionalDoctors.toFixed(1)}</p>`;
+        }
+    }
 }
