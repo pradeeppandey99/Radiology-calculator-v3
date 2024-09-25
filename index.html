@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Radiology Manpower Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Radiology Manpower Calculator</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showPage('assumptions')">Basic Assumptions</a></li>
+                <li><a href="#" onclick="showPage('dynamic')">Dynamic Inputs</a></li>
+            </ul>
+        </nav>
+        <div id="assumptions" class="page">
+            <h2>Basic Assumptions</h2>
+            <form id="assumptions-form">
+                <div class="form-group">
+                    <label for="manhours">Available manhours per month:</label>
+                    <input type="number" id="manhours" required>
+                    <span class="assumption-comment">Assuming 8 hours per day, 25 working days per month</span>
+                </div>
+                <div class="form-group">
+                    <label for="consultantTime">Consultant time assumed for CT & MRI:</label>
+                    <input type="number" id="consultantTime" required>
+                    <span class="assumption-comment">Factoring in consultant's additional responsibilities</span>
+                </div>
+                <div class="form-group">
+                    <label for="registrarTime">Registrar/Resident time assumed for CT & MRI:</label>
+                    <input type="number" id="registrarTime" required>
+                    <span class="assumption-comment">Factoring in registrar's additional responsibilities</span>
+                </div>
+                <div class="form-group">
+                    <label for="simpleCTTime">Average reporting time - Simple CT (in mins):</label>
+                    <input type="number" id="simpleCTTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="complexCTTime">Average reporting time - Complex CT (in mins):</label>
+                    <input type="number" id="complexCTTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="complexCTWork">Percentage of Complex CT Work:</label>
+                    <input type="number" id="complexCTWork" required>
+                </div>
+                <div class="form-group">
+                    <label for="simpleMRITime">Average reporting time - Simple MRI (in mins):</label>
+                    <input type="number" id="simpleMRITime" required>
+                </div>
+                <div class="form-group">
+                    <label for="complexMRITime">Average reporting time - Complex MRI (in mins):</label>
+                    <input type="number" id="complexMRITime" required>
+                </div>
+                <div class="form-group">
+                    <label for="complexMRIWork">Percentage of Complex MRI Work:</label>
+                    <input type="number" id="complexMRIWork" required>
+                </div>
+                <div class="form-group">
+                    <label for="seasonalAdjustment">Percentage adjustment for seasonal variations:</label>
+                    <input type="number" id="seasonalAdjustment" required>
+                    <span class="assumption-comment">Adjustment for seasonal variations and assumptions on complexity</span>
+                </div>
+                <button type="button" onclick="saveAssumptions()">Save Assumptions</button>
+            </form>
+        </div>
+        <div id="dynamic" class="page">
+            <h2>Dynamic Inputs</h2>
+            <form id="dynamic-form">
+                <div class="form-group">
+                    <label for="consultants">Total no. of consultants:</label>
+                    <input type="number" id="consultants" required>
+                </div>
+                <div class="form-group">
+                    <label for="registrars">Total no. of registrars:</label>
+                    <input type="number" id="registrars" required>
+                </div>
+                <div class="form-group">
+                    <label for="ctPatients">No of patients coming for CT per month:</label>
+                    <input type="number" id="ctPatients" required>
+                </div>
+                <div class="form-group">
+                    <label for="mriPatients">No of patients coming for MRI per month:</label>
+                    <input type="number" id="mriPatients" required>
+                </div>
+                <button type="button" onclick="calculateManpower()">Calculate</button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
