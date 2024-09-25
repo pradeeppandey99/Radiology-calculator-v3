@@ -2,57 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radiology Manpower Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/heroicons@2.0.18/24/solid/index.min.js"></script>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4 bg-white shadow-lg rounded-lg">
-        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Radiology Manpower Calculator</h1>
-        <nav class="mb-6">
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">
+            <span class="inline-block mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                </svg>
+            </span>
+            Radiology Manpower Calculator
+        </h1>
+        <nav class="mb-8">
             <ul class="flex justify-center space-x-4">
-                <li><a href="#" onclick="showPage('assumptions')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fas fa-cog mr-2"></i>Basic Assumptions</a></li>
-                <li><a href="#" onclick="showPage('dynamic')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fas fa-calculator mr-2"></i>Dynamic Inputs</a></li>
+                <li>
+                    <a href="#" onclick="showPage('assumptions')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                        </svg>
+                        Basic Assumptions
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showPage('dynamic')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd" />
+                        </svg>
+                        Dynamic Inputs
+                    </a>
+                </li>
             </ul>
         </nav>
-        <div id="assumptions" class="page">
-            <h2 class="text-2xl font-semibold mb-4">Basic Assumptions</h2>
-            <form id="assumptions-form">
-                <!-- Repeat this structure for each form group -->
-                <div class="form-group mb-4">
-                    <label for="manhours" class="block text-sm font-medium text-gray-700 mb-1">Available manhours per month:</label>
-                    <input type="number" id="manhours" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                    <span class="text-xs text-gray-500 italic mt-1">Assuming 8 hours per day, 25 working days per month</span>
+        <div id="assumptions" class="page bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Basic Assumptions</h2>
+            <form id="assumptions-form" class="space-y-4">
+                <!-- Form fields here (similar structure for all fields) -->
+                <div class="form-group">
+                    <label for="manhours" class="block text-sm font-medium text-gray-700">Available manhours per month:</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input type="number" id="manhours" required class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="200">
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">Assuming 8 hours per day, 25 working days per month</p>
                 </div>
-                <!-- ... other form groups ... -->
-                <button type="button" onclick="saveAssumptions()" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    <i class="fas fa-save mr-2"></i>Save Assumptions
+                <!-- Add more form fields here with similar structure -->
+                <button type="button" onclick="saveAssumptions()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Save Assumptions
                 </button>
             </form>
         </div>
-        <div id="dynamic" class="page">
-            <h2 class="text-2xl font-semibold mb-4">Dynamic Inputs</h2>
-            <form id="dynamic-form">
-                <!-- Repeat this structure for each form group -->
-                <div class="form-group mb-4">
-                    <label for="consultants" class="block text-sm font-medium text-gray-700 mb-1">Total no. of consultants:</label>
-                    <input type="number" id="consultants" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                </div>
-                <!-- ... other form groups ... -->
-                <div id="deficit-options" class="form-group mb-4" style="display: none;">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Who are you planning to hire? <span class="text-xs text-gray-500 italic">(put your inputs and calculate again)</span></label>
-                    <div class="radio-group flex items-center mb-2">
-                        <input type="radio" id="hireRegistrars" name="hireOption" value="registrars" onclick="showAdditionalInput(false)" class="mr-2">
-                        <label for="hireRegistrars" class="text-sm text-gray-700">Only registrars</label>
+        <div id="dynamic" class="page bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Dynamic Inputs</h2>
+            <form id="dynamic-form" class="space-y-4">
+                <!-- Dynamic input fields here (similar structure for all fields) -->
+                <div class="form-group">
+                    <label for="consultants" class="block text-sm font-medium text-gray-700">Total no. of consultants:</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                            </svg>
+                        </div>
+                        <input type="number" id="consultants" required class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0">
                     </div>
-                    <!-- ... other radio options ... -->
                 </div>
-                <button type="button" onclick="calculateManpower()" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    <i class="fas fa-calculator mr-2"></i>Calculate
+                <!-- Add more dynamic input fields here with similar structure -->
+                <div id="deficit-options" class="form-group hidden">
+                    <label class="block text-sm font-medium text-gray-700">Who are you planning to hire?</label>
+                    <div class="mt-2 space-y-2">
+                        <div class="flex items-center">
+                            <input type="radio" id="hireRegistrars" name="hireOption" value="registrars" onclick="showAdditionalInput(false)" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+                            <label for="hireRegistrars" class="ml-3 block text-sm font-medium text-gray-700">Only registrars</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="hireDoctors" name="hireOption" value="doctors" onclick="showAdditionalInput(false)" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+                            <label for="hireDoctors" class="ml-3 block text-sm font-medium text-gray-700">Only doctors</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="hireMix" name="hireOption" value="mix" onclick="showAdditionalInput(true)" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
+                            <label for="hireMix" class="ml-3 block text-sm font-medium text-gray-700">A mix of registrar & doctor</label>
+                        </div>
+                    </div>
+                    <div id="additionalRegistrarsInput" class="mt-4 hidden">
+                        <label for="additionalRegistrars" class="block text-sm font-medium text-gray-700">How many additional registrars you want?</label>
+                        <input type="number" id="additionalRegistrars" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0">
+                    </div>
+                </div>
+                <button type="button" onclick="calculateManpower()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Calculate
                 </button>
             </form>
-            <div id="result" class="mt-6 p-4 bg-gray-100 rounded-lg"></div>
+            <div id="result" class="mt-6 p-4 bg-gray-50 rounded-md"></div>
         </div>
     </div>
     <script src="script.js"></script>
